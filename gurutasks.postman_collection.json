@@ -1,0 +1,94 @@
+{
+  "info": {
+    "_postman_id": "vicup-collection-auth",
+    "name": "VicUp API (Auth Test)",
+    "description": "Postman collection for testing VicUp custom JWT auth with Cloudinary file upload",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Signup (with Profile Pic Upload)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "name", "value": "Vic", "type": "text" },
+            { "key": "email", "value": "vic@devman.com", "type": "text" },
+            { "key": "password", "value": "12345678", "type": "text" },
+            { "key": "role_id", "value": "1", "type": "text" },
+            {
+              "key": "profile_pic",
+              "type": "file",
+              "src": "/path/to/your/avatar.png"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/signup",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "auth", "signup"]
+        }
+      }
+    },
+    {
+      "name": "Login (Get JWT)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"vic@devman.com\",\n  \"password\": \"12345678\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "Example Protected Route",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{vicup_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/protected",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "protected"]
+        }
+      }
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": { "type": "text/javascript", "exec": [] }
+    },
+    {
+      "listen": "test",
+      "script": { "type": "text/javascript", "exec": [] }
+    }
+  ],
+  "variable": [
+    {
+      "key": "vicup_token",
+      "value": ""
+    }
+  ]
+}
